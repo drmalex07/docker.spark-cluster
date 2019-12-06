@@ -1,0 +1,60 @@
+version: "3.3"
+
+services:
+  
+  datanode1:
+    image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+    hostname: datanode1
+    volumes:
+      - /var/local/data-1/datanode1:/hadoop/dfs/data
+    env_file: 'env.sh'
+    healthcheck: { interval: 5s, retries: 100 }
+    networks: [ 'hadoop-net' ]
+    deploy: 
+      endpoint_mode: 'dnsrr'
+      placement:
+        constraints: [ 'node.hostname == node-1.localdomain' ]
+  
+  datanode2:
+    image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+    hostname: datanode2
+    volumes:
+      - /var/local/data-1/datanode2:/hadoop/dfs/data
+    env_file: 'env.sh'
+    healthcheck: { interval: 5s, retries: 100 }
+    networks: [ 'hadoop-net' ]
+    deploy:
+      endpoint_mode: 'dnsrr'
+      placement:
+        constraints: [ 'node.hostname == node-2.localdomain' ]
+
+  datanode3:
+    image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+    hostname: datanode3
+    volumes:
+      - /var/local/data-1/datanode3:/hadoop/dfs/data
+    env_file: 'env.sh'
+    healthcheck: { interval: 5s, retries: 100 }
+    networks: [ 'hadoop-net' ]
+    deploy: 
+      endpoint_mode: 'dnsrr'
+      placement:
+        constraints: [ 'node.hostname == node-3.localdomain' ]
+ 
+  datanode4:
+    image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+    hostname: datanode4
+    volumes:
+      - /var/local/data-2/datanode4:/hadoop/dfs/data
+    env_file: 'env.sh'
+    healthcheck: { interval: 5s, retries: 100 }
+    networks: [ 'hadoop-net' ]
+    deploy: 
+      endpoint_mode: 'dnsrr'
+      placement:
+        constraints: [ 'node.hostname == node-1.localdomain' ]
+
+networks:
+  hadoop-net:
+    external:
+      name: 'hadoop-net'

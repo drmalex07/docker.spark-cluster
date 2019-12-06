@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  
+  namenode:
+    image: bde2020/hadoop-namenode:1.1.0-hadoop2.8-java8
+    hostname: namenode
+    volumes:
+      - /var/local/data-1/namenode:/hadoop/dfs/name
+    env_file: 'env.sh'
+    environment:
+      - CORE_CONF_hadoop_http_staticuser_user=root
+      - CORE_CONF_hadoop_proxyuser_hue_hosts=*
+      - CORE_CONF_hadoop_proxyuser_hue_groups=*
+      - HDFS_CONF_dfs_webhdfs_enabled=true
+      - HDFS_CONF_dfs_permissions_enabled=false
+      - HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check=false
+    healthcheck: { interval: '5s', retries: 100 }
+    networks: [ 'hadoop-net' ]
+    deploy:
+      endpoint_mode: 'dnsrr'
+      placement:
+        constraints: [ 'node.hostname == node-1.localdomain' ]
+
+networks:
+  hadoop-net:
+    external:
+      name: 'hadoop-net'
