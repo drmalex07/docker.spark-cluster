@@ -26,4 +26,7 @@ Start Spark (master and workers in standalone mode):
     
     docker stack deploy -c spark.yml spark
 
+Start Zeppelin (optional):
 
+    docker stack deploy -c zeppelin.yml zeppelin
+        
